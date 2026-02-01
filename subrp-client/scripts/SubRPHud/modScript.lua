@@ -1,0 +1,2 @@
+load("SubRPHud")
+registerCoreModule("SubRPHud")

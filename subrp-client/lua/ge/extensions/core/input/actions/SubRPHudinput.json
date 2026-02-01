@@ -1,0 +1,9 @@
+{
+    "subrp_close_ui"     : {"order":1, "cat":"SubRPHud", "title":"Закрыть меню", "actionMap":"Global", "ctx": "tlua", "onDown":"guihooks.trigger('set-RolePlayHud-open-ui', 'close_hud')"},
+    "subrp_action"     : {"order":3, "cat":"SubRPHud", "title":"Взаимодействие", "actionMap":"Global", "ctx": "tlua", "onDown":"SubRPCore.use_button()"},
+    "subrp_open_close_phone"     : {"order":4, "cat":"SubRPHud", "title":"Открыть/Закрыть Телефон", "actionMap":"Global", "ctx": "tlua", "onDown":"guihooks.trigger('set-RolePlayHud-open-close-phone', 'data')"},
+    "subrp_open_close_profile"     : {"order":5, "cat":"SubRPHud", "title":"Открыть/Закрыть Профиль", "actionMap":"Global", "ctx": "tlua", "onDown":"guihooks.trigger('set-RolePlayHud-open-profile', 'data')"},
+    "subrp_open_close_fast_gui"    :{"order":6, "cat":"SubRPHud", "title": "Быстрое использование", "actionMap":"Global", "ctx": "tlua", "onDown"  :"SubRPHud.open_close_fast_use()", "onUp"  :"SubRPHud.open_close_fast_use()"}
+
+
+}

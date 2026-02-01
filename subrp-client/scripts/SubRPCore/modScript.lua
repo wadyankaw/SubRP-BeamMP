@@ -1,0 +1,2 @@
+load("SubRPCore")
+registerCoreModule("SubRPCore")

@@ -1,0 +1,38 @@
+<div ng-if="loading.img" class="subrp-loading-screen" layout="column" layout-align="end center" style="background: url({{ ::loading.img }}) no-repeat; background-size: cover; background-position: center center;">
+  <link rel="stylesheet" type="text/css" href="/ui/modules/loading/loading.css" />
+  <link rel="stylesheet" type="text/css" href="loading.css" />
+  
+  <div class="subrp-overlay"></div>
+  <div class="subrp-pattern"></div>
+  
+
+  
+  <div class="subrp-branding">
+    <div class="subrp-logo-container">
+      <div class="subrp-logo-glow"></div>
+      <h1>SubRP</h1>
+    </div>
+    <h2>ROLEPLAY SERVER</h2>
+    <div class="subrp-tagline">by @Subterrania Team</div>
+  </div>
+  
+  <div id="subrp-progress-box" class="subrp-loading-container">
+    <div class="subrp-icon-group" layout="row" layout-align="center center">
+      <animated-icon icon="terrain"></animated-icon>
+      <animated-icon icon="environment"></animated-icon>
+      <animated-icon icon="forest"></animated-icon>
+      <animated-icon icon="meshes"></animated-icon>
+      <animated-icon icon="roads"></animated-icon>
+      <animated-icon icon="beamng"></animated-icon>
+    </div>
+    <animated-progress-bar></animated-progress-bar>
+    <animated-progress-status></animated-progress-status>
+    <div class="progressStatusHistory" style="display: none;"></div>
+  </div>
+  
+  <div id="subrp-tips-container">
+    <tips-bar class="subrp-tips-section"></tips-bar>
+  </div>
+  
+  <simple-test></simple-test>
+</div>

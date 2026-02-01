@@ -1,0 +1,2245 @@
+
+<div ng-controller="RolePlayHudInit" id="RolePlayHudInit" ng-init="init()" ng-style="{'width': '100%', 'height': '100%', 'background-color': 'transparent'}">
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen">
+    <link type="text/css" rel="stylesheet" href="/ui/modules/apps/HudRP/style.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+
+
+
+    <div class="notification-container" id="notificationContainer"></div>
+
+
+
+
+    <div class="ui-car_diler" id="ui-car_diler" style="display: none;">
+
+        <div class="header-diler">
+            <div class="logo_diler">
+                <span class="logo-icon">🚘</span>
+                <span id="diler_name">{diler_name}</span>
+            </div>
+            <div class="header-actions">
+                <button class="header-close-btn" id="closeDealerBtn" onclick="chpok('ui-car_diler')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="diler-container">
+            <div class="sidebar_diler">
+                <div class="search-filter">
+                    <input type="text" class="search-input" placeholder="Поиск автомобилей...">
+                </div>
+                
+                <div class="sort-filter">
+                    <div class="filter-group">
+                        <label class="filter-label">Сортировка</label>
+                        <div class="select-box">
+                            <select id="sort">
+                                <option value="default">По умолчанию</option>
+                                <option value="price-asc">Цена (по возрастанию)</option>
+                                <option value="price-desc">Цена (по убыванию)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Тип</label>
+                        <div class="select-box">
+                            <select id="type">
+                                <option value="all">Все</option>
+                                <option value="sedan">Седаны</option>
+                                <option value="suv">Внедорожники</option>
+                                <option value="sport">Спортивные</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="car-list" id="carList">
+                </div>
+            </div>
+            
+            <div class="main-content_diler">
+                <div id="carDetail" class="car-detail">
+                </div>
+                
+                <div id="welcomeMessage" class="welcome-screen">
+                    <div class="welcome-icon">🏎️</div>
+                    <h1 class="welcome-title">Премиальные автомобили</h1>
+                    <p class="welcome-text">Выберите автомобиль из списка слева, чтобы просмотреть подробную информацию и сделать заказ</p>
+                    <button class="explore-btn">Начать просмотр</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+
+    <div id="ui-character-stats" style="background-color: #121212; display: none;">
+            <div class="sidebar">
+                <div class="logo">Subterrania RolePlay</div>
+                <a onclick="OpenPageProfile('profile')" class="menu-item active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 448 512">
+                        <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
+                    </svg>
+                    <span>Профиль</span>
+                </a>
+                <a onclick="OpenPageProfile('bonus')"class="menu-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 576 512">
+                        <path fill="currentColor" d="M400 0H176c-26.5 0-48.1 21.8-47.1 48.2c.2 5.3 .4 10.6 .7 15.8H24C10.7 64 0 74.7 0 88c0 92.6 33.5 157 78.5 200.7c44.3 43.1 98.3 64.8 138.1 75.8c23.4 6.5 39.4 26 39.4 45.6c0 20.9-17 37.9-37.9 37.9H192c-17.7 0-32 14.3-32 32s14.3 32 32 32H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H357.9C337 448 320 431 320 410.1c0-19.6 15.9-39.2 39.4-45.6c39.9-11 93.9-32.7 138.2-75.8C542.5 245 576 180.6 576 88c0-13.3-10.7-24-24-24H446.4c.3-5.2 .5-10.4 .7-15.8C448.1 21.8 426.5 0 400 0z"/>
+                </svg>
+                <span>Достижения</span>
+            </a>
+            <a onclick="OpenPageProfile('cases')"class="menu-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 640 512">
+                    <path fill="currentColor" d="M480 .0l-112 0c-21.1 0-39.6 13.9-45.8 34.5l-119.4 0c-6.2-20.6-24.7-34.5-45.8-34.5l-112 0C20.2 .0 0 20.2 0 45.1l0 421.8c0 24.9 20.2 45.1 45.1 45.1l112 0c21.1 0 39.6-13.9 45.8-34.5l119.4 0c6.2 20.6 24.7 34.5 45.8 34.5l112 0c24.9 0 45.1-20.2 45.1-45.1l0-421.8C525.1 20.2 504.9 .0 480 .0zM320 384L320 128l-64 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16l64 0z"/>
+                </svg>
+                <span>Кейсы</span>
+            </a>
+            <a onclick="OpenPageProfile('setting')"class="menu-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 512 512">
+                    <path fill="currentColor" d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/>
+                </svg>
+                <span>Настройки</span>
+            </a>
+            <a id="business-menu-item" onclick="OpenPageProfile('business')" class="menu-item" style="display: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 576 512">
+                    <path fill="currentColor" d="M384 160c-17.7 0-32-14.3-32-32s14.3-32 32-32h160c17.7 0 32 14.3 32 32V352c0 17.7-14.3 32-32 32H384c-17.7 0-32-14.3-32-32s14.3-32 32-32h32V256H384c-17.7 0-32-14.3-32-32s14.3-32 32-32h32V160H384zM32 160c-17.7 0-32-14.3-32-32s14.3-32 32-32h160c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H32v64H160c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V352 256 160z"/>
+                </svg>
+                <span>Бизнесы</span>
+            </a>
+
+            <a onclick="toggleCharacterStats()"class="menu-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 384 512">
+                    <path fill="currentColor" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/>
+                </svg>
+                <span>Закрыть меню</span>
+            </a>
+        </div>
+        
+    
+        <div class="main-content" style=" margin-left:280px">
+            <div style=" display: block; animation: fadeIn 0.5s ease;">
+                <div class="header">
+                    <h1 class="page-title">Статистика персонажа</h1>
+                </div>
+    
+                <div class="character-card">
+                    <div class="character-header">
+                        <div class="avatar">JD</div>
+                        <div class="character-info">
+                            <h2>RolePlay Name</h2>
+                            <p>@subrp</p>
+                        </div>
+                    </div>
+    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-title">Баланс карты</div>
+                            <div class="stat-value money">$125,430</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Наличные</div>
+                            <div class="stat-value cash">$8,750</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Уровень</div>
+                            <div class="stat-value level">24</div>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Время игры</div>
+                            <div class="stat-value">127 ч 45 мин</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Фракция</div>
+                            <div class="stat-value">Los Santos Police</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Дата регистрации</div>
+                            <div class="stat-value">15.03.2023</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div style="display: none; animation: fadeIn 0.5s ease;" id="achievements-section">
+                <div class="header">
+                    <h1 class="page-title">Достижения</h1>
+                    <div class="achievement-filter">
+                        <button class="filter-btn active">Все</button>
+                        <button class="filter-btn">Полученные</button>
+                        <button class="filter-btn">Не полученные</button>
+                    </div>
+                </div>
+                
+                <div class="character-card">
+                    <div class="achievements-grid">
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: none; animation: fadeIn 0.5s ease;" id="cases-section">
+                <div class="header">
+                    <h1 class="page-title">Кейсы</h1>
+                    <div class="cases-balance">
+                        <span>Ваши ключи: <strong>5</strong></span>
+                    </div>
+                </div>
+                
+                <div class="character-card">
+                    <div class="cases-grid">
+                        <div class="case-card">
+                            <div class="case-image" style="background-color: #4a6fa5;">
+                                <i class="fas fa-box-open"></i>
+                            </div>
+                            <div class="case-info">
+                                <h3>Обычный кейс</h3>
+                                <p>Шанс получить обычные предметы</p>
+                                <div class="case-actions">
+                                    <button class="case-btn open-btn">Открыть (1 ключ)</button>
+                                    <button class="case-btn info-btn"><i class="fas fa-info-circle"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="case-card rare">
+                            <div class="case-image" style="background-color: #9c27b0;">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <div class="case-info">
+                                <h3>Редкий кейс</h3>
+                                <p>Шанс получить редкие предметы</p>
+                                <div class="case-actions">
+                                    <button class="case-btn open-btn">Открыть (3 ключа)</button>
+                                    <button class="case-btn info-btn"><i class="fas fa-info-circle"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="case-card premium">
+                            <div class="case-image" style="background-color: #ff9800;">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <div class="case-info">
+                                <h3>Премиум кейс</h3>
+                                <p>Шанс получить эксклюзивные предметы</p>
+                                <div class="case-actions">
+                                    <button class="case-btn open-btn">Открыть (5 ключей)</button>
+                                    <button class="case-btn info-btn"><i class="fas fa-info-circle"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: none; animation: fadeIn 0.5s ease;" id="settings-section">
+                <div class="header">
+                    <h1 class="page-title">Настройки</h1>
+                </div>               
+                <div class="character-card">
+                    <div class="settings-tabs">
+                        <button class="tab-btn active" onclick="openSettingsTab('general')">Основные</button>
+                        <button class="tab-btn" onclick="openSettingsTab('interface')">Интерфейс</button>
+                        <button class="tab-btn" onclick="openSettingsTab('notifications')">Уведомления</button>
+                    </div>                    
+                    <div id="general-settings" class="settings-tab-content active">                    
+                    </div>                    
+                    <div id="interface-settings" class="settings-tab-content">                        
+                    </div>                  
+                </div>
+            </div>
+            <div style="display: none; animation: fadeIn 0.5s ease;" id="business-list-section">
+                <div class="header">
+                    <h1 class="page-title">Список бизнесов</h1>
+                </div>                            
+            </div>
+            <div style="display: none; animation: fadeIn 0.5s ease;" id="business-section">
+                <div class="header">
+                    <h1 id = "buisnes_name" class="page-title">buisnes_name</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div id="ui_toggle_show" style="display: block;">
+
+        <button class="ui-toggle-btn" onclick="toggleUIPanel('DefuiPanel')">Стандартные UI Меню</button>
+        <button class="ui-toggle-btn" onclick="toggleUIPanel('JobuiPanel')">Работы UI Меню</button>
+        <button class="ui-toggle-btn" onclick="toggleUIPanel('FulluiPanel')">Большие UI Меню</button>
+
+        <div class="ui-panel" style="display: none;" id="DefuiPanel">
+            <button class="ui-btn" onclick="chpok('ui-bank')">Банк</button>
+            <button class="ui-btn" onclick="close_open_phone()">Телефон</button>
+            <button class="ui-btn" onclick="chpok('ui-gas-station')">Заправка</button> 
+            <button class="ui-btn" onclick="chpok('ui-inventory')">Инвентарь</button>
+            <button class="ui-btn" onclick="chpok('ui-fast_use')">Быстрое использование</button>
+            <button class="ui-btn" onclick="chpok('ui-auto_school')">Автошкола</button>
+            <button class="ui-btn" onclick="chpok('ui-buy_biz')">Покупка Бизнесов</button>
+        </div>
+        <div class="ui-panel" style="display: none;" id="JobuiPanel">
+            <button class="ui-btn" onclick="chpok('ui-jobs-bus')">Автобус</button> 
+            <button class="ui-btn" onclick="chpok('ui-jobs-taxi')">Такси</button> 
+            <button class="ui-btn" onclick="chpok('ui-jobs-delivery')">Доставка</button> 
+        </div>
+        <div class="ui-panel" style="display: none;" id="FulluiPanel">
+            <button class="ui-btn" onclick="chpok('ui-car_diler')">Автосалон</button>
+            <button class="ui-btn" onclick="toggleCharacterStats()">Профиль</button>
+            <button class="ui-btn" onclick="chpok('ui-parts')">Тюнинг</button> 
+        </div>
+
+        
+
+
+        <div id="hudElement" v-if="show" >
+
+            <div id="logoBlock">
+                <span id="logoProjectType">BeamMP</span>
+                <img src="/ui/modules/apps/HudRP/images/logo_beammp.png" alt="Server Logo">
+                <div class="server-player-info">
+                    <span id="logoServerName">SubRP Vanila - <span id="logoServerOnline">{{online}}</span></span>
+                    <span class="info-separator">|</span>
+                    <span class="info-label">Ping:</span><span id="Session-Ping">?</span>
+                    <span class="info-separator">|</span>
+                    <span class="info-label">ID:</span> <span id="logoPlayerInfo">{{playerId}}</span>
+                    <span class="info-separator">|</span>
+                    <button type="button" class="exit-server-btn" ng-click="leaveServer()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 512 512">
+                            <path fill="currentColor" d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
+                        </svg>
+                        <span>Выйти</span>
+                    </button>
+                </div>
+            </div>
+            <div id="infoPanelBlock">
+                <div id="infoPanel">
+                    <div class="info-panel-content">
+                        <div class="info-items-container">
+                            <div class="info-item">
+                                <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <path fill="currentColor" d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
+                                </svg>
+                                <div class="time-date-text">
+                                    <span id="InfoServerTime">{{time}}</span>
+                                    <span id="InfoServerDate">{{date}}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                    <path fill="currentColor" d="M64 64C28.7 64 0 92.7 0 128V384c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H64zm64 320H64V320c35.3 0 64 28.7 64 64zM64 192V128h64c0 35.3-28.7 64-64 64zM448 384c0-35.3 28.7-64 64-64v64H448zm64-192c-35.3 0-64-28.7-64-64h64v64zM288 352c-53 0-96-43-96-96s43-96 96-96s96 43 96 96s-43 96-96 96z"/>
+                                </svg>
+                                <span id="InfoPlayerMoney">$ {{money}}</span>
+                            </div>
+                        </div>
+
+                        <div class="notification-bell-container" id="notificationBellContainer">
+                            <div class="notification-bell">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <path fill="currentColor" d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"/>
+                                </svg>
+                            </div>
+                            <div class="notification-badge" id="notificationBadge">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            
+            
+            <div class="block-ui">
+                <div class="ui-buy_biz" id="ui-buy_biz"style="display: none;">
+                    <div class="biz-container" id="bizContainer">
+                        <div class="biz-header">
+                            <h2 class="biz-title" id="bizTitle">Покупка бизнеса</h2>
+                            <button class="biz-close-btn" onclick="chpok('close_hud')">×</button>
+                        </div>
+
+                        <div class="biz-content">
+                            <div class="biz-info-grid">
+                                <div class="biz-info-item">
+                                    <span class="biz-info-label">
+                                        <svg viewBox="0 0 24 24"><path d="M4 4h16v2H4V4zm0 4h16v2H4V8zm0 4h16v2H4v-2zm0 4h10v2H4v-2z"/></svg>
+                                        Название
+                                    </span>
+                                    <span class="biz-info-value" id="bizName">-</span>
+                                </div>
+                                
+                                <div class="biz-info-item">
+                                    <span class="biz-info-label">
+                                        <svg viewBox="0 0 24 24"><path d="M12 2L1 9l4 1.5V21h14v-8.5L23 9l-11-7zm-2 17H6v-4h4v4zm0-6H6v-4h4v4zm6 6h-4v-4h4v4zm0-6h-4v-4h4v4z"/></svg>
+                                        Тип
+                                    </span>
+                                    <span class="biz-info-value" id="bizType">-</span>
+                                </div>
+                                
+                                <div class="biz-info-item">
+                                    <span class="biz-info-label">
+                                        <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c2.15-.45 3.5-1.78 3.5-3.71 0-2.13-1.82-3.32-4.5-4.04z"/></svg>
+                                        Цена
+                                    </span>
+                                    <span class="biz-info-value price" id="bizPrice">-</span>
+                                </div>
+                                
+                                <div class="biz-info-item">
+                                    <span class="biz-info-label">
+                                        <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                                        Ежедневное списание
+                                    </span>
+                                    <span class="biz-info-value profit" id="bizProfit">-</span>
+                                </div>
+                            </div>
+
+                            <div class="biz-actions">
+                                <button class="biz-btn biz-btn-purchase" onclick="buybiz()">
+                                    Купить
+                                </button>
+                                <button class="biz-btn biz-btn-cancel" onclick="chpok('close_hud')">
+                                    Отмена
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-jobs-bus" id="ui-jobs-bus"style="display: none;">
+                    <div class="bus-container">
+                        <h1 class="bus-title">Маршруты автобуса</h1>
+                        <div class="bus-routes" id="bus-routes">
+                          
+                        </div>
+                        <div class="bus-footer">
+                            <button class="bus-button close-btn"onclick="chpok('ui-jobs-bus')">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="ui-jobs-taxi" id="ui-jobs-taxi"style="display: none;">
+                    <div id="taxi-menu-container" class="taxi-menu-container">
+                        <div class="taxi-car-header">
+                            <div id="taxi-car-driver-name" class="taxi-car-driver-info">Имя Фамилия</div>
+                            <div class="taxi-car-brand-logo">
+                                <span>SUB</span> TAXI
+                            </div>
+                        </div>
+
+                        <div class="taxi-car-display-wrapper">
+                            <img id="taxi-car-image" src="https://i.imgur.com/Vv4A8L9.png" alt="Такси">
+                        </div>
+
+                        <div class="taxi-car-main-content">
+                            <h1>Информация о смене</h1>
+                            <div class="taxi-car-info-grid">
+                                <div class="taxi-car-info-item">
+                                    <span class="taxi-car-info-label">Ваш ранг</span>
+                                    <span id="taxi-car-taxi-rank" class="taxi-car-info-value"></span>
+                                </div>
+                                <div class="taxi-car-info-item">
+                                    <span class="taxi-car-info-label">Класс</span>
+                                    <span id="taxi-car-taxi-class" class="taxi-car-info-value"></span>
+                                </div>
+                                <div class="taxi-car-info-item">
+                                    <span class="taxi-car-info-label">Автомобиль</span>
+                                    <span id="taxi-car-model" class="taxi-car-info-value"></span>
+                                </div>
+                                    <div class="taxi-car-info-item">
+                                    <span class="taxi-car-info-label">Множитель</span>
+                                    <span id="taxi-car-work-coefficient" class="taxi-car-info-value"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="taxi-car-action-buttons">
+                            <button class="taxi-car-btn taxi-car-btn-start" onclick="start_taxi()" >Начать работу</button>
+                            <button class="taxi-car-btn taxi-car-btn-cancel" onclick="chpok('close_hud')">Отмена</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-jobs-delivery" id="ui-jobs-delivery"style="display: none;">
+                    <div class="delivery-menu-container">
+                        <div class="delivery-main-panel">
+                            <div class="delivery-header">
+                                <div id="delivery-driver-name" class="delivery-driver-info">DarkDriver_2024</div>
+                                <div class="delivery-brand-logo">
+                                    <span>SUB</span>CARGO
+                                </div>
+                            </div>
+                            
+                            <div class="delivery-car-display-wrapper">
+                                <img id="delivery-car-image" src="https://i.imgur.com/Vv4A8L9.png" alt="Автомобиль">
+                            </div>
+                
+                            <div class="delivery-main-content">
+                                <h1>Информация о смене</h1>
+                                <div class="delivery-info-grid">
+                                    <div class="delivery-info-item">
+                                        <span class="delivery-info-label">Ваш ранг</span>
+                                        <span id="delivery-rank" class="delivery-info-value delivery-rank-value">Новичок</span>
+                                    </div>
+                                    <div class="delivery-info-item">
+                                        <span class="delivery-info-label">Уровень</span>
+                                        <span id="delivery-level" class="delivery-info-value">1</span>
+                                    </div>
+                                    <div class="delivery-info-item">
+                                        <span class="delivery-info-label">Автомобиль</span>
+                                        <span id="delivery-vehicle-model" class="delivery-info-value">Ford Transit</span>
+                                    </div>
+                                    <div class="delivery-info-item">
+                                        <span class="delivery-info-label">Вместимость</span>
+                                        <span id="delivery-vehicle-capacity" class="delivery-info-value delivery-capacity-value">4 палеты</span>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="delivery-action-buttons">
+                                <button id="delivery-start-btn" class="delivery-btn delivery-btn-start" onclick="deliverystartDelivery()" disabled>Выберите маршрут</button>
+                                <button id="delivery-cancel-btn" class="delivery-btn delivery-btn-cancel" onclick="chpok('close_hud')">Отмена</button>
+                            </div>
+                        </div>
+                
+                        <div class="delivery-routes-panel">
+                            <div class="delivery-routes-header">
+                                <div class="delivery-routes-title">Доступные маршруты</div>
+                                <div class="delivery-routes-subtitle">Выберите подходящий маршрут для доставки</div>
+                            </div>
+                            
+                            <div class="delivery-routes-list" id="delivery-routes-list">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <div class="ui-fast_use" id="ui-fast_use"style="display: none;">
+                    
+                </div>
+                
+                <div class="ui-gas-station" id="ui-gas-station" style="display: none;">
+                    <div style="cursor: pointer;"id = "gas-station-header"class="gas-station-header" onclick="incrementGasStationClicks()">
+                        <h2><span id="gas-station-name">Заправочная станция</span></h2>
+                    </div>
+                    <div class="gas-station-content">
+                        <div class="gas-station-left-column">
+                            <div class="vehicle-info-section">
+                                <div class="info-row">
+                                    <span class="info-label">Автомобиль:</span>
+                                    <span class="info-value" id="gas-vehicle-model">ETK 800</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Тип топлива:</span>
+                                    <span class="info-value" id="gas-fuel-type">gasoline</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Уровень топлива:</span>
+                                    <span class="info-value" id="gas-current-fuel">15.5</span>
+                                    <span class="info-unit">/ </span>
+                                    <span class="info-value" id="gas-fuel-capacity">65.0</span>
+                                    <span class="info-unit"> л</span>
+                                </div>
+                            </div>
+                            
+                            <div class="fuel-price-section">
+                                <div class="info-row">
+                                    <span class="info-label">Цена за литр:</span>
+                                    <span class="info-value" id="fuel-price-value">50.0</span>
+                                    <span class="info-unit"> $</span>
+                                </div>
+                            </div>
+                            
+                            <div class="fuel-amount-section">
+                                <h3 class="section-title">Количество топлива</h3>
+                                <div class="fuel-amount-controls">
+                                    <input type="range" id="fuel-amount-slider" min="0" max="49.5" step="0.1" value="10.0" oninput="updateFuelSlider()">
+                                    <div class="fuel-amount-display">
+                                        <input type="number" id="fuel-amount-input" min="0" max="49.5" step="0.1" value="10.0" oninput="updateFuelInput()">
+                                        <span class="fuel-amount-unit">л</span>
+                                    </div>
+                                </div>
+                                <div class="fuel-amount-buttons">
+                                    <button onclick="selectFuelAmount(5)">5 л</button>
+                                    <button onclick="selectFuelAmount(10)">10 л</button>
+                                    <button onclick="selectFuelAmount(20)">20 л</button>
+                                    <button onclick="selectFuelAmount('full')">Полный бак</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="gas-station-right-column">
+                            <div class="payment-method-section">
+                                <h3 class="section-title">Способ оплаты</h3>
+                                <div class="payment-options">
+                                    <div class="payment-option active" data-method="bank" onclick="selectPaymentMethod('bank')">
+                                        <div class="payment-option-icon">💳</div>
+                                        <div class="payment-option-name">Банк</div>
+                                    </div>
+                                    <div class="payment-option" data-method="cash" onclick="selectPaymentMethod('cash')">
+                                        <div class="payment-option-icon">💵</div>
+                                        <div class="payment-option-name">Наличные (-6%)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="summary-section">
+                                <div class="summary-row">
+                                    <span class="summary-label">Количество:</span>
+                                    <span class="summary-value" id="summary-amount">10.0</span>
+                                    <span class="summary-unit"> л</span>
+                                </div>
+                                <div class="summary-row discount-row" style="display: none;" id="discount-row">
+                                    <span class="summary-label">Скидка (6%):</span>
+                                    <span class="summary-value" id="summary-discount">-30.0</span>
+                                    <span class="summary-unit"> $</span>
+                                </div>
+                                <div class="summary-row total-row">
+                                    <span class="summary-label">Итого к оплате:</span>
+                                    <span class="summary-value" id="summary-total">500.0</span>
+                                    <span class="summary-unit"> $</span>
+                                </div>
+                            </div>
+                            
+                            <div class="action-buttons">
+                                <button class="cancel-btn" onclick="closeGasStation()">Отмена</button>
+                                <button class="pay-btn" onclick="payForFuel()">Оплатить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+
+                <div class="ui-phone" id="ui-phone" style="display: none;">
+                    <div class="phone-container">
+                        <div class="phone-status-bar">
+                            <div class="dynamic-island">
+                                <div class="island-content"></div>
+                            </div>
+                            <span class="status-time" id="phoneStatusTime">12:45</span>
+                            <span class="status-icons">
+                                <svg class="status-signal" width="20" height="14" viewBox="0 0 20 14"><rect x="0" y="10" width="3" height="4" fill="#B0BEC5"/><rect x="5" y="7" width="3" height="7" fill="#B0BEC5"/><rect x="10" y="4" width="3" height="10" fill="#B0BEC5"/><rect x="15" y="1" width="3" height="13" fill="#B0BEC5"/></svg>
+                                <span class="status-lte">LTE</span>
+                                <svg class="status-battery" width="24" height="12" viewBox="0 0 24 12"><rect x="0" y="2" width="20" height="8" rx="2" fill="#B0BEC5"/><rect x="21" y="4" width="2" height="4" rx="1" fill="#B0BEC5"/><rect x="2" y="4" width="16" height="4" rx="1" fill="#76FF03"/></svg>
+                            </span>
+                        </div>
+                        <div class="phone-content show">
+                            <div class="phone-app-grid">
+                                <div class="phone-app" onclick="openPhoneApp('gps')">
+                                    <div class="phone-app-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 448 512">
+                                            <path fill="currentColor" d="M429.6 92.1c4.9-11.9 2.1-25.6-7-34.7s-22.8-11.9-34.7-7l-352 144c-14.2 5.8-22.2 20.8-19.3 35.8s16.1 25.8 31.4 25.8H224V432c0 15.3 10.8 28.4 25.8 31.4s30-5.1 35.8-19.3l144-352z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="phone-app-name">GPS</div>
+                                </div>
+                                <div class="phone-app" onclick="openPhoneApp('jobs')">
+                                    <div class="phone-app-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512">
+                                            <path fill="currentColor" d="M184 48H328c4.4 0 8 3.6 8 8V96H176V56c0-4.4 3.6-8 8-8zm-56 8V96H64C28.7 96 0 124.7 0 160v96H192 320 512V160c0-35.3-28.7-64-64-64H384V56c0-30.9-25.1-56-56-56H184c-30.9 0-56 25.1-56 56zM512 288H320v32c0 17.7-14.3 32-32 32H224c-17.7 0-32-14.3-32-32V288H0V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V288z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="phone-app-name">Труд</div>
+                                </div>
+                                <div class="phone-app" onclick="openPhoneApp('towtruck')">
+                                    <div class="phone-app-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512">
+                                            <path fill="currentColor" d="M39.61 196.8L74.8 96.29C88.27 57.78 124.6 32 165.4 32H346.6C387.4 32 423.7 57.78 437.2 96.29L472.4 196.8C495.6 206.4 512 229.3 512 256V336C512 359.7 499.1 380.6 480 391.4V448C480 465.7 465.7 480 448 480H416C398.3 480 384 465.7 384 448V400H128V448C128 465.7 113.7 480 96 480H64C46.33 480 32 465.7 32 448V391.4C12.87 380.6 0 359.7 0 336V256C0 229.3 16.36 206.4 39.61 196.8V196.8zM109.1 192H402.9L372.9 110.6C367.8 96.5 358.1 96 346.6 96H165.4C153.9 96 144.2 96.5 139.1 110.6L109.1 192zM96 256C78.33 256 64 270.3 64 288C64 305.7 78.33 320 96 320C113.7 320 128 305.7 128 288C128 270.3 113.7 256 96 256zM416 320C433.7 320 448 305.7 448 288C448 270.3 433.7 256 416 256C398.3 256 384 270.3 384 288C384 305.7 398.3 320 416 320z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="phone-app-name">Буксир</div>
+                                </div>
+                            </div>
+                            <div class="phone-dock">
+                                <div class="phone-dock-app bank" onclick="openPhoneApp('bank')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512">
+                                        <path fill="currentColor" d="M243.4 2.6l-224 96c-14 6-21.8 21-18.7 35.8S16.8 160 32 160v8c0 13.3 10.7 24 24 24H456c13.3 0 24-10.7 24-24v-8c15.2 0 28.3-10.7 31.3-25.6s-4.8-29.9-18.7-35.8l-224-96c-8-3.4-17.2-3.4-25.2 0zM128 224H64V420.3c-.6 .3-1.2 .7-1.8 1.1l-48 32c-11.7 7.8-17 22.4-12.9 35.9S17.9 512 32 512H480c14.1 0 26.5-9.2 30.6-22.7s-1.1-28.1-12.9-35.9l-48-32c-.6-.4-1.2-.7-1.8-1.1V224H384V416H344V224H280V416H232V224H168V416H128V224z"/>
+                                    </svg>
+                                </div>
+                                <div class="phone-dock-app messages" onclick="openPhoneApp('messages')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512">
+                                        <path fill="currentColor" d="M256 448c141.4 0 256-93.1 256-208S397.4 32 256 32S0 125.1 0 240c0 45.1 17.7 86.8 47.7 120.9c-1.9 24.5-11.4 46.3-21.4 62.9c-5.5 9.2-11.1 16.6-15.2 21.6c-2.1 2.5-3.7 4.4-4.9 5.7c-.6 .6-1 1.1-1.3 1.4l-.3 .3 0 0 0 0 0 0 0 0c-4.6 4.6-5.9 11.4-3.4 17.4c2.5 6 8.3 9.9 14.8 9.9c28.7 0 57.6-8.9 81.6-19.3c22.9-10 42.4-21.9 54.3-30.6c31.8 11.5 67 17.9 104.1 17.9zM128 208a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm128 0a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm96 32a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/>
+                                    </svg>
+                                </div>
+                                <div class="phone-dock-app help" onclick="openPhoneApp('help')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512">
+                                        <path fill="currentColor" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3h58.3c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24V250.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1H222.6c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/>
+                                    </svg>
+                                </div>
+                                <div class="phone-dock-app settings" onclick="openPhoneApp('settings')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512">
+                                        <path fill="currentColor" d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="phone-app-screen"> 
+                            <div id="phone-bank-app" class="phone-app-content phone-bank-modern" style="display: none;">
+                                <div class="phone-bank-header">
+                                    <div class="bank-greeting">
+                                        Здравствуйте, <span id="phoneBankUsername">Пользователь</span>!
+                                    </div>
+                                </div>
+                                <div class="phone-bank-main">
+                                    <div class="balance-card">
+                                        <div class="card-top">
+                                            <span class="card-label">Текущий баланс</span>
+                                            <div class="card-chip">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect x="5" y="8" width="14" height="8" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                                                    <path d="M9 12H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="card-balance" id="phoneBankBalance">$ ---,--</div>
+                                        <div class="card-details">
+                                            <span class="card-number" id="phoneBankCardNumber">**** **** **** ****</span>
+                                            <span class="card-expiry">12/28</span>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="quick-actions">
+                                        <button class="action-btn" onclick="phoneBankShowPage('transfer')">
+                                            <div class="action-icon transfer">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M17 8L21 12M21 12L17 16M21 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <span>Перевод</span>
+                                        </button>
+                                        <button class="action-btn" onclick="phoneBankShowPage('history')">
+                                            <div class="action-icon history">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                                </svg>
+                                            </div>
+                                            <span>История</span>
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="quick-actions">
+                                        <button class="action-btn" onclick="phoneBankShowPage('fines')">
+                                            <div class="action-icon fines">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 9V13M12 17H12.01M5.07 19H18.93C20.47 19 21.43 17.33 20.66 16L13.73 4C12.96 2.67 11.04 2.67 10.27 4L3.34 16C2.57 17.33 3.53 19 5.07 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <span>Штрафы</span>
+                                        </button>
+                                        <button class="action-btn" onclick="phoneBankShowPage('info')">
+                                            <div class="action-icon info">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                                    <path d="M12 8V12M12 16H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                                </svg>
+                                            </div>
+                                            <span>Инфо</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div id="phone-bank-transfer-page" class="phone-bank-page">
+                                    <div class="page-header">
+                                        <button class="back-btn" onclick="phoneBankHidePage('transfer')">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </button>
+                                        <h4 class="page-title">Перевод средств</h4>
+                                        <div class="spacer"></div>
+                                    </div>
+                                    <div class="page-content">
+                                        <form id="phone-transfer-form" onsubmit="event.preventDefault(); submitPhoneTransfer();">
+                                            <div class="form-group">
+                                                <label for="phone-transfer-recipient">Получатель</label>
+                                                <input type="text" id="phone-transfer-recipient" placeholder="ID или имя получателя">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="phone-transfer-amount">Сумма</label>
+                                                <input type="number" id="phone-transfer-amount" placeholder="Введите сумму">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="phone-transfer-comment">Комментарий (необязательно)</label>
+                                                <textarea id="phone-transfer-comment" placeholder="Введите комментарий"></textarea>
+                                            </div>
+                                            <button type="submit" class="submit-btn">Отправить</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <div id="phone-bank-history-page" class="phone-bank-page">
+                                    <div class="page-header">
+                                        <button class="back-btn" onclick="phoneBankHidePage('history')">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </button>
+                                        <h4 class="page-title">История операций</h4>
+                                        <div class="spacer"></div>
+                                    </div>
+                                    <div class="page-content">
+                                        <div class="transaction-list full" id="phone-bank-history-list"> >
+                                            <div class="transaction-item placeholder">
+                                                История транзакций пуста
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div id="phone-bank-fines-page" class="phone-bank-page">
+                                    <div class="page-header">
+                                        <button class="back-btn" onclick="phoneBankHidePage('fines')">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </button>
+                                        <h4 class="page-title">Штрафы</h4>
+                                        <div class="spacer"></div>
+                                    </div>
+                                    <div class="page-content">
+                                        <div class="fines-list" id="phone-bank-fines-list">
+                                            <div class="transaction-item placeholder">
+                                                Нет неоплаченных штрафов
+                                            </div>
+                                        </div>
+                                        <div class="fines-info-message">
+                                            <div class="info-icon">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                                    <path d="M12 8V12M12 16H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                                </svg>
+                                            </div>
+                                            <p>Для оплаты штрафов воспользуйтесь банкоматом или посетите отделение банка</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Info Page -->
+                                <div id="phone-bank-info-page" class="phone-bank-page">
+                                    <div class="page-header">
+                                        <button class="back-btn" onclick="phoneBankHidePage('info')">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </button>
+                                        <h4 class="page-title">Информация</h4>
+                                        <div class="spacer"></div>
+                                    </div>
+                                    <div class="page-content">
+                                        <div class="info-section">
+                                            <h3>О банке FinX</h3>
+                                            <p>FinX - ведущий банк города, предоставляющий полный спектр финансовых услуг для физических и юридических лиц.</p>
+                                            
+                                            <h3>Контактная информация</h3>
+                                            <div class="contact-item">
+                                                <div class="contact-icon">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M22 12C22 10.6868 21.7413 9.38647 21.2388 8.1731C20.7362 6.95996 19.9997 5.85742 19.0711 4.92896C18.1425 4.00024 17.0401 3.26367 15.8268 2.76123C14.6136 2.25854 13.3132 2 12 2C10.6868 2 9.38647 2.25854 8.1731 2.76123C6.95996 3.26367 5.85742 4.00024 4.92896 4.92896C3.26367 6.59424 2 8.95345 2 12C2 15.0461 3.26367 17.4058 4.92896 19.0711C5.85742 19.9997 6.95996 20.7362 8.1731 21.2388C9.38647 21.7413 10.6868 22 12 22C13.3132 22 14.6136 21.7413 15.8268 21.2388C17.0401 20.7362 18.1425 19.9997 19.0711 19.0711C19.9997 18.1425 20.7362 17.0401 21.2388 15.8268C21.7413 14.6136 22 13.3132 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M16 12H12V8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="contact-text">
+                                                    <strong>Часы работы:</strong> 9:00 - 18:00
+                                                </div>
+                                            </div>
+                                            <div class="contact-item">
+                                                <div class="contact-icon">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M22 16.92V19.92C22 20.4704 21.7893 20.9996 21.4142 21.3746C21.0391 21.7497 20.5304 21.96 20 21.96C18.44 21.96 16.78 21.73 15.16 21.27C13.66 20.85 12.26 20.19 11 19.29C8.6 17.64 6.56 15.6 4.92 13.2C4.01 11.94 3.35 10.53 2.93 9.04C2.47 7.42 2.24 5.76 2.24 4.2C2.24 3.66957 2.45071 3.16086 2.82579 2.78579C3.20086 2.41071 3.70957 2.2 4.24 2.2H7.24C7.69183 2.2 8.13184 2.36946 8.46585 2.67373C8.79985 2.97801 9.00054 3.39451 9.02 3.84C9.06 4.77 9.21 5.69 9.47 6.57C9.59 6.99 9.58 7.44 9.43 7.85C9.28 8.26 9.01 8.61 8.64 8.85L7.25 9.79C8.75 12.19 10.81 14.25 13.21 15.75L14.15 14.36C14.39 13.99 14.74 13.72 15.15 13.57C15.56 13.42 16.01 13.41 16.43 13.53C17.31 13.79 18.23 13.94 19.16 13.98C19.61 14 20.03 14.2 20.33 14.54C20.63 14.88 20.8 15.32 20.8 15.78V16.92H22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="contact-text">
+                                                    <strong>Телефон:</strong> 555-123-4567
+                                                </div>
+                                            </div>
+                                            <div class="contact-item">
+                                                <div class="contact-icon">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="contact-text">
+                                                    <strong>Email:</strong> support@finx.com
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="phone-app-settings" id="settings" style="display: none;">
+                                <div class="settings-main-page">                         
+                                    <div class="settings-user">
+                                        <div class="settings-avatar" id="settings-avatar">JD</div>
+                                        <div class="settings-user-info">
+                                            <div class="settings-user-name" id="settings-user-name">John Doe</div>
+                                            <div class="settings-user-id" id="settings-user-id">ID: 12345678</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="settings-content">
+                                        <div class="settings-section">
+                                            <div class="settings-section-title">Основные</div>
+                                            
+                                            <div class="settings-item" onclick="openSettingsSubpage('sound')">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                                                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Звук и уведомления</div>
+                                                    <div class="settings-item-description">Громкость, звуки, вибрация</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-arrow">›</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="settings-item" onclick="openSettingsSubpage('appearance')">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <circle cx="12" cy="12" r="3"></circle>
+                                                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Внешний вид</div>
+                                                    <div class="settings-item-description">Темы, обои, размер шрифта</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-arrow">›</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="settings-item" onclick="openSettingsSubpage('privacy')">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Конфиденциальность</div>
+                                                    <div class="settings-item-description">Блокировка, разрешения</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-arrow">›</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="settings-section">
+                                            <div class="settings-section-title">Система</div>
+                                            
+                                            <div class="settings-item" onclick="openSettingsSubpage('about')">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <circle cx="12" cy="12" r="10"></circle>
+                                                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">О телефоне</div>
+                                                    <div class="settings-item-description">Версия, информация</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-arrow">›</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-subpage" id="sound-settings">
+                                    <div class="settings-header">
+                                        <button class="settings-back-btn" onclick="closeSettingsSubpage('sound')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M15 18l-6-6 6-6"></path>
+                                            </svg>
+                                        </button>
+                                        <div class="settings-title">Звук и уведомления</div>
+                                    </div>
+                                    
+                                    <div class="settings-content">
+                                        <div class="settings-section">
+                                            <div class="dev-notification">
+                                                <div class="dev-notification-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                                                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                                    </svg>
+                                                </div>
+                                                <div class="dev-notification-content">
+                                                    <div class="dev-notification-title">Раздел в разработке</div>
+                                                    <div class="dev-notification-description">Этот раздел находится в стадии разработки и будет доступен через некоторое время.</div>
+                                                </div>
+                                            </div>
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                                                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Громкость медиа</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="settings-slider" id="media-volume-slider">
+                                                <div class="settings-slider-track">
+                                                    <div class="settings-slider-fill" style="width: 70%;"></div>
+                                                    <div class="settings-slider-thumb" style="left: 70%;"></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Громкость уведомлений</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="settings-slider" id="notification-volume-slider">
+                                                <div class="settings-slider-track">
+                                                    <div class="settings-slider-fill" style="width: 50%;"></div>
+                                                    <div class="settings-slider-thumb" style="left: 50%;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="settings-section">
+                                            <div class="settings-section-title">Звуки и вибрация</div>
+                                            
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M8 2h8l2 2h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2-2z"></path>
+                                                        <circle cx="12" cy="12" r="3"></circle>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Звук камеры</div>
+                                                    <div class="settings-item-description">Звук при съемке фото</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-toggle active" id="camera-sound-toggle" onclick="toggleSetting(this)"></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                                                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Звук клавиш</div>
+                                                    <div class="settings-item-description">Звук при нажатии клавиш</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-toggle active" id="keyboard-sound-toggle" onclick="toggleSetting(this)"></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3z"></path>
+                                                        <path d="M8 17v1a4 4 0 0 0 8 0v-1"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Вибрация</div>
+                                                    <div class="settings-item-description">Вибрация при уведомлениях</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-toggle active" id="vibration-toggle" onclick="toggleSetting(this)"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="settings-section">
+                                            <div class="settings-section-title">Уведомления</div>
+                                            
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Уведомления приложений</div>
+                                                    <div class="settings-item-description">Управление уведомлениями</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-arrow">›</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                                                        <path d="M12 6v6l4 2"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Не беспокоить</div>
+                                                    <div class="settings-item-description">Отключить все уведомления</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-toggle" id="do-not-disturb-toggle" onclick="toggleSetting(this)"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-subpage" id="appearance-settings">
+                                    <div class="settings-header">
+                                        <button class="settings-back-btn" onclick="closeSettingsSubpage('appearance')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M15 18l-6-6 6-6"></path>
+                                            </svg>
+                                        </button>
+                                        <div class="settings-title">Внешний вид</div>
+                                    </div>
+                                    
+                                    <div class="settings-content">
+                                        <div class="dev-notification">
+                                            <div class="dev-notification-icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                                </svg>
+                                            </div>
+                                            <div class="dev-notification-content">
+                                                <div class="dev-notification-title">Раздел в разработке</div>
+                                                <div class="dev-notification-description">Этот раздел находится в стадии разработки и будет доступен через некоторое время.</div>
+                                            </div>
+                                        </div>
+                                        <div class="settings-section">
+                                            <div class="settings-section-title">Тема</div>
+                                            
+                                            <div class="theme-options">
+                                                <div class="theme-option active" onclick="selectTheme(this, 'default')">
+                                                    <div class="theme-preview theme-default"></div>
+                                                    <div class="theme-name">По умолчанию</div>
+                                                </div>
+                                                <div class="theme-option" onclick="selectTheme(this, 'dark')">
+                                                    <div class="theme-preview theme-dark"></div>
+                                                    <div class="theme-name">Тёмная</div>
+                                                </div>
+                                                <div class="theme-option" onclick="selectTheme(this, 'blue')">
+                                                    <div class="theme-preview theme-blue"></div>
+                                                    <div class="theme-name">Синяя</div>
+                                                </div>
+                                                <div class="theme-option" onclick="selectTheme(this, 'green')">
+                                                    <div class="theme-preview theme-green"></div>
+                                                    <div class="theme-name">Зелёная</div>
+                                                </div>
+                                                <div class="theme-option" onclick="selectTheme(this, 'red')">
+                                                    <div class="theme-preview theme-red"></div>
+                                                    <div class="theme-name">Красная</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="settings-section">
+                                            <div class="settings-section-title">Обои</div>
+                                            
+                                            <div class="wallpaper-options">
+                                                <div class="wallpaper-option active" onclick="selectWallpaper(this, 1)">
+                                                    <div class="wallpaper-preview wallpaper-1"></div>
+                                                </div>
+                                                <div class="wallpaper-option" onclick="selectWallpaper(this, 2)">
+                                                    <div class="wallpaper-preview wallpaper-2"></div>
+                                                </div>
+                                                <div class="wallpaper-option" onclick="selectWallpaper(this, 3)">
+                                                    <div class="wallpaper-preview wallpaper-3"></div>
+                                                </div>
+                                                <div class="wallpaper-option" onclick="selectWallpaper(this, 4)">
+                                                    <div class="wallpaper-preview wallpaper-4"></div>
+                                                </div>
+                                                <div class="wallpaper-option" onclick="selectWallpaper(this, 5)">
+                                                    <div class="wallpaper-preview wallpaper-5"></div>
+                                                </div>
+                                                <div class="wallpaper-option" onclick="selectWallpaper(this, 6)">
+                                                    <div class="wallpaper-preview wallpaper-6"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="settings-section">
+                                            <div class="settings-section-title">Текст</div>
+                                            
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                                                        <line x1="9" y1="20" x2="15" y2="20"></line>
+                                                        <line x1="12" y1="4" x2="12" y2="20"></line>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Размер шрифта</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="settings-slider" id="font-size-slider">
+                                                <div class="settings-slider-track">
+                                                    <div class="settings-slider-fill" style="width: 50%;"></div>
+                                                    <div class="settings-slider-thumb" style="left: 50%;"></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="font-size-preview">
+                                                <div class="font-size-sample">Пример текста</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-subpage" id="privacy-settings">
+                                    <div class="settings-header">
+                                        <button class="settings-back-btn" onclick="closeSettingsSubpage('privacy')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M15 18l-6-6 6-6"></path>
+                                            </svg>
+                                        </button>
+                                        <div class="settings-title">Конфиденциальность</div>
+                                    </div>
+                                    
+                                    <div class="settings-content">
+                                        <div class="settings-section">
+                                             <div class="dev-notification">
+                                            <div class="dev-notification-icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                                </svg>
+                                            </div>
+                                            <div class="dev-notification-content">
+                                                <div class="dev-notification-title">Раздел в разработке</div>
+                                                <div class="dev-notification-description">Этот раздел находится в стадии разработки и будет доступен через некоторое время.</div>
+                                            </div>
+                                        </div>
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Блокировка экрана</div>
+                                                    <div class="settings-item-description">Защита от несанкционированного доступа</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-toggle" id="screen-lock-toggle" onclick="toggleSetting(this)"></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Скрывать номер телефона</div>
+                                                    <div class="settings-item-description">Скрывать номер при звонках</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-toggle" id="hide-number-toggle" onclick="toggleSetting(this)"></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                        <circle cx="12" cy="12" r="3"></circle>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Скрывать статус онлайн</div>
+                                                    <div class="settings-item-description">Не показывать статус в мессенджере</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-toggle" id="hide-status-toggle" onclick="toggleSetting(this)"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="settings-section">
+                                            <div class="settings-section-title">Разрешения</div>
+                                            
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                                                        <circle cx="12" cy="13" r="4"></circle>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Камера</div>
+                                                    <div class="settings-item-description">Доступ к камере</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-toggle active" id="camera-toggle" onclick="toggleSetting(this)"></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                                                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                                                        <line x1="6" y1="1" x2="6" y2="4"></line>
+                                                        <line x1="10" y1="1" x2="10" y2="4"></line>
+                                                        <line x1="14" y1="1" x2="14" y2="4"></line>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Микрофон</div>
+                                                    <div class="settings-item-description">Доступ к микрофону</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-toggle active" id="microphone-toggle" onclick="toggleSetting(this)"></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="settings-item">
+                                                <div class="settings-item-icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                                        <circle cx="12" cy="10" r="3"></circle>
+                                                    </svg>
+                                                </div>
+                                                <div class="settings-item-content">
+                                                    <div class="settings-item-title">Геолокация</div>
+                                                    <div class="settings-item-description">Доступ к местоположению</div>
+                                                </div>
+                                                <div class="settings-item-action">
+                                                    <div class="settings-toggle active" id="location-toggle" onclick="toggleSetting(this)"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="settings-subpage" id="about-settings">
+                                    <div class="settings-header">
+                                        <button class="settings-back-btn" onclick="closeSettingsSubpage('about')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M15 18l-6-6 6-6"></path>
+                                            </svg>
+                                        </button>
+                                        <div class="settings-title">О телефоне</div>
+                                    </div>
+                                    
+                                    <div class="settings-content">
+                                        <div class="phone-info-logo">
+                                            <div class="phone-info-logo-img">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#9b6dc6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                                                    <line x1="12" y1="18" x2="12" y2="18"></line>
+                                                </svg>
+                                            </div>
+                                            <div class="phone-info-logo-text">SubRP Phone</div>
+                                            <div class="phone-info-version">Версия 1.0.0</div>
+                                        </div>
+                                        
+                                        <div class="phone-info-section">
+                                            <div class="phone-info-item">
+                                                <div class="phone-info-label">Модель</div>
+                                                <div class="phone-info-value">SubRP X Pro</div>
+                                            </div>
+                                            <div class="phone-info-item">
+                                                <div class="phone-info-label">Серийный номер</div>
+                                                <div class="phone-info-value">SR-2023-X12345</div>
+                                            </div>
+                                            <div class="phone-info-item">
+                                                <div class="phone-info-label">Операционная система</div>
+                                                <div class="phone-info-value">SubOS 14.2</div>
+                                            </div>
+                                            <div class="phone-info-item">
+                                                <div class="phone-info-label">Процессор</div>
+                                                <div class="phone-info-value">SubChip A16</div>
+                                            </div>
+                                            <div class="phone-info-item">
+                                                <div class="phone-info-label">Память</div>
+                                                <div class="phone-info-value">128 ГБ</div>
+                                            </div>
+                                            <div class="phone-info-item">
+                                                <div class="phone-info-label">Оперативная память</div>
+                                                <div class="phone-info-value">8 ГБ</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="phone-info-section">
+                                            <div class="phone-info-item">
+                                                <div class="phone-info-label">Номер телефона</div>
+                                                <div class="phone-info-value" id="phone-number-display">+7 (XXX) XXX-XX-XX</div>
+                                            </div>
+                                            <div class="phone-info-item">
+                                                <div class="phone-info-label">IMEI</div>
+                                                <div class="phone-info-value">356938035643809</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="phone-info-section">
+                                            <div class="phone-info-item">
+                                                <div class="phone-info-label">Правовая информация</div>
+                                                <div class="settings-arrow">›</div>
+                                            </div>
+                                            <div class="phone-info-item">
+                                                <div class="phone-info-label">Условия использования</div>
+                                                <div class="settings-arrow">›</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>   
+                            <div class="ui-job-vacancies" id="jobs" style="display: none;">
+                                <div class="phone-app-container">
+                                    <div class="phone-app-header">
+                                        <div class="app-header-title">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M20 7H4C2.89543 7 2 7.89543 2 9V19C2 20.1046 2.89543 21 4 21H20C21.1046 21 22 20.1046 22 19V9C22 7.89543 21.1046 7 20 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M16 21V5C16 4.46957 15.7893 3.96086 15.4142 3.58579C15.0391 3.21071 14.5304 3 14 3H10C9.46957 3 8.96086 3.21071 8.58579 3.58579C8.21071 3.96086 8 4.46957 8 5V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Вакансии</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="phone-app-content">
+                                        <div class="job-list-view" id="job-list-view">
+                                            <h2 class="job-section-title">Доступные вакансии</h2>
+                                            <div class="job-cards" id="job-cards-container">
+                                               
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="job-detail-view" id="job-detail-view" style="display: none;">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="tow-truck-app" id="towtruck" style="display: none;">
+                                <div class="phone-app-container" style="height: 495px;">
+                                    <div class="tow-truck-header">
+                                        <button class="tow-back-btn" onclick="openPhoneApp('close_app')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M15 18l-6-6 6-6"></path>
+                                            </svg>
+                                        </button>
+                                        <h2>Эвакуатор</h2>
+                                        <div class="header-spacer"></div>
+                                    </div>
+                                    
+                                    <div class="tow-truck-scene">
+                                        <div class="road-background">
+                                            <div class="road-surface"></div>
+                                            <div class="road-line"></div>
+                                            <div class="road-markings"></div>
+                                        </div>
+                                        <div class="tow-truck-animation">
+                                            <div class="tow-truck-image"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tow-truck-services">
+                                        <div class="service-option" onclick="selectTowOption('gas')">
+                                            <div class="service-icon">⛽</div>
+                                            <div class="service-details">
+                                                <div class="service-title">На заправку</div>
+                                                <div class="service-price">$500</div>
+                                                <div class="service-description">Доставим ваш автомобиль на ближайшую заправку</div>
+                                            </div>
+                                        </div>
+                                        <div class="service-option" onclick="selectTowOption('repair')">
+                                            <div class="service-icon">🔧</div>
+                                            <div class="service-details">
+                                                <div class="service-title">На автосервис</div>
+                                                <div class="service-price">$800</div>
+                                                <div class="service-description">Доставим ваш автомобиль в ближайший автосервис</div>
+                                            </div>
+                                        </div>
+                                        <div class="service-option" onclick="selectTowOption('flip')">
+                                            <div class="service-icon">🔄</div>
+                                            <div class="service-details">
+                                                <div class="service-title">Перевернуть машину</div>
+                                                <div class="service-price">$300</div>
+                                                <div class="service-description">Перевернем ваш автомобиль в правильное положение</div>
+                                            </div>
+                                        </div>
+                                        <div class="service-option" onclick="selectTowOption('road')">
+                                            <div class="service-icon">🛣️</div>
+                                            <div class="service-details">
+                                                <div class="service-title">Вернуть на дорогу</div>
+                                                <div class="service-price">$100</div>
+                                                <div class="service-description">Вытащим ваш автомобиль и вернем на ближайшую дорогу</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tow-truck-confirmation" style="display: none;">
+                                        <div class="confirmation-content">
+                                            <div class="confirmation-icon-towtruck">✓</div>
+                                            <h3 class="confirmation-title">Подтверждение вызова</h3>
+                                            <p class="confirmation-message">Ваш автомобиль будет доставлен <span id="tow-destination">на заправку</span>.</p>
+                                            <p class="confirmation-price">Стоимость услуги: <span id="tow-price">500$</span></p>
+                                            <div class="confirmation-buttons">
+                                                <button class="confirmation-accept-btn" onclick="confirmTowService()">Подтвердить</button>
+                                                <button class="confirmation-cancel-btn" onclick="closeTowConfirmation()">Отмена</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tow-completion-overlay" style="display: none;">
+                                        <div class="completion-loader">
+                                            <div class="spinner"></div>
+                                            <p>Эвакуатор в пути...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                        
+                        </div>
+                        <div class="phone-footer">
+                            <div class="phone-home-button" onclick="openPhoneApp('close_app')" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="ui-inventory" id="ui-inventory" style="display: none;">
+                    <div class="inventory-container"> 
+                        <div class="inventory-header">
+                            <h3 class="inventory-title">Инвентарь</h3>
+                            <div class="inventory-capacity">
+                                <span id="Inventory_use">{used}</span>/<span id="Inventory_use_max">{max}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="inventory-grid" id="inventory-items-container">
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div class="ui-auto_school" id="ui-auto_school" style="display: none;">
+                    <div class="auto-school-header">
+                        <div class="auto-school-logo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                                <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                                <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                            </svg>
+                            <span>Автошкола "Путь Водителя"</span>
+                        </div>
+                        <button class="auto-school-close-btn" onclick="closeAutoSchool()">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="auto-school-container">
+                        <!-- Main Menu -->
+                        <div class="auto-school-content" id="auto-school-main-menu">
+                            <div class="auto-school-welcome">
+                                <h2>Добро пожаловать в автошколу!</h2>
+                                <p class="auto-school-quote">"Хороший водитель — не тот, кто умеет быстро ездить, а тот, кто умеет вовремя остановиться."</p>
+                            </div>
+                            
+                            
+                            
+                            <div class="auto-school-licenses">
+                                <h3>Выберите категорию прав</h3>
+                                <div class="license-grid">
+                                    <div class="license-card" onclick="showLicenseDetails('A')">
+                                        <div class="license-icon">A</div>
+                                        <div class="license-name">Мотоциклы</div>
+                                    </div>
+                                    <div class="license-card" onclick="showLicenseDetails('B')">
+                                        <div class="license-icon">B</div>
+                                        <div class="license-name">Легковые автомобили</div>
+                                    </div>
+                                    <div class="license-card" onclick="showLicenseDetails('C')">
+                                        <div class="license-icon">C</div>
+                                        <div class="license-name">Грузовые автомобили</div>
+                                    </div>
+                                    <div class="license-card" onclick="showLicenseDetails('D')">
+                                        <div class="license-icon">D</div>
+                                        <div class="license-name">Автобусы</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- License Details -->
+                        <div class="auto-school-content" id="auto-school-license-details" style="display: none;">
+                            <div class="license-details-header">
+                                <button class="back-button" onclick="backToMainMenu()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M19 12H5"></path>
+                                        <path d="M12 19l-7-7 7-7"></path>
+                                    </svg>
+                                    Назад
+                                </button>
+                                <h2 id="license-details-title">Категория A</h2>
+                            </div>
+                            
+                            <div class="license-details-content">
+                                <div class="license-description" id="license-description">
+                                </div>
+                                
+                                <div class="license-exam-info">
+                                    <h3>Экзамен состоит из:</h3>
+                                    <ul>
+                                        <li>Теоретический тест (20 вопросов, 5 минут) - <span id="theory-price">1500$</span></li>
+                                        <li>Практическое вождение - <span id="practice-price">3000$</span></li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="license-actions">
+                                    <div id="theory-test-status" class="test-status">Теоретический тест не пройден</div>
+                                    <button id="start-theory-btn" class="primary-button" onclick="startTheoryTest()">Начать теоретический тест</button>
+                                    <button id="start-practice-btn" class="primary-button" style="display: none;" onclick="startPracticeExam()">Начать практический экзамен</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="auto-school-content" id="auto-school-theory-test" style="display: none;">
+                            <div class="theory-test-header">
+                                <h2>Теоретический экзамен</h2>
+                                <div class="theory-test-timer" id="theory-test-timer">05:00</div>
+                            </div>
+                            
+                            <div class="theory-test-content">
+                                <div class="question-container" id="question-container">
+                                </div>
+                                
+                                <div class="theory-test-navigation">
+                                    <button class="secondary-button" onclick="previousQuestion()">Предыдущий</button>
+                                    <button class="secondary-button" onclick="cancelTest()">Отменить экзамен</button>
+                                    <button class="primary-button" id="next-question-btn" onclick="nextQuestion()">Следующий</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="auto-school-content" id="auto-school-results" style="display: none;">
+                            <div class="auto-school-header">
+                                <h2 id="results-title">Результаты экзамена</h2>
+                            </div>
+                            <div class="results-content">
+                                <div id="results-icon" class="results-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div id="results-message" class="results-message"></div>
+                                <div id="results-details" class="results-details"></div>
+                                <div class="results-actions">
+                                    <button id="retry-exam-btn" class="auto-school-btn">Пересдать</button>
+                                    <button id="back-to-menu-btn" class="auto-school-btn" onclick="backToMainMenu()">В главное меню</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-parts" id="ui-parts" style="display: none; ">
+
+                    <div class="autoservice-container">
+                        <div class="sidebar">
+                            <div class="sidebar-header">
+                                <h2>Автосервис</h2>
+                                <p>Полная настройка автомобиля</p>
+                            </div>
+                            <ul class="sidebar-menu">
+                                <li class="active">
+                                    <i>📦</i> Комплектующие
+                                </li>
+                                <li>
+                                    <i>⚙️</i> Тюнинг
+                                </li>
+                                <li>
+                                    <i>🎨</i> Окраска
+                                </li>
+
+                                <li onclick="chpok('ui-parts')" >
+                                     Выйти
+                                </li>
+                        </div>
+
+                        <div class="main-content"style="position: fixed;left:280px ;z-index: 1000; top:0">
+                            <div class="header" style="z-index: 9999;">
+                                <h1>Комплектующие автомобиля</h1>
+                                <div class="header-actions">
+                                    <button class="btn btn-secondary">
+                                        <i>↻</i> Сбросить
+                                    </button>
+                                    <button class="btn btn-primary">
+                                        <i>✔</i> Применить
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Поиск деталей</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="parts-search">
+                                        <input type="text" class="search-input" placeholder="Поиск по названию, описанию...">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ui-parts" id="ui-parts">
+                                <div class="parts-tree">
+                                    <!-- Пример структуры дерева деталей -->
+                                    <div class="part-item">
+                                        <div class="part-header">
+                                            <span class="part-name">Двигатель</span>
+                                            <span>▼</span>
+                                        </div>
+                                        <div class="part-options active">
+                                            <div class="option-item selected">2.0L Турбо (250 л.с.)</div>
+                                            <div class="option-item">3.0L V6 (350 л.с.)</div>
+                                            <div class="option-item">Электрический (400 л.с.)</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="part-item">
+                                        <div class="part-header">
+                                            <span class="part-name">Трансмиссия</span>
+                                            <span>▼</span>
+                                        </div>
+                                        <div class="part-options">
+                                            <div class="option-item selected">6-ступ. механическая</div>
+                                            <div class="option-item">8-ступ. автоматическая</div>
+                                            <div class="option-item">DSG 7-ступ.</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="part-item">
+                                        <div class="part-header">
+                                            <span class="part-name">Подвеска</span>
+                                            <span>▼</span>
+                                        </div>
+                                        <div class="part-options">
+                                            <div class="option-item selected">Стандартная</div>
+                                            <div class="option-item">Спортивная</div>
+                                            <div class="option-item">Гоночная</div>
+                                            <div class="option-item">Пневматическая</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-bank" id="ui-bank" style="display: none;">
+                    <div class="bank-container">
+                        <div class="bank-header">
+                            <div class="bank-logo">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L2 7V9H22V7L12 2Z" fill="currentColor"/>
+                                    <path d="M4 11V20H20V11H4Z" fill="currentColor"/>
+                                    <path d="M2 22H22V20H2V22Z" fill="currentColor"/>
+                                    <path d="M10 12H14V16H10V12Z" fill="currentColor"/>
+                                </svg>
+                                <span>FinX</span>
+                            </div>
+                            <div class="bank-actions">
+                                <button class="bank-close-btn" onclick="chpok('ui-bank')">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="bank-content">
+                            <div class="bank-sidebar">
+                                <div class="sidebar-menu">
+                                    <a onclick="bank_load_page1()" class="sidebar-item active">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Главная</span>
+                                    </a>
+                                    <a onclick="bank_pages_open('ui-bank-page2-pay-pdd');" class="sidebar-item">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 9V13M12 17H12.01M5.07183 19H18.9282C20.4678 19 21.4301 17.3333 20.6603 16L13.7321 4C12.9623 2.66667 11.0378 2.66667 10.268 4L3.33978 16C2.56998 17.3333 3.53223 19 5.07183 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Штрафы</span>
+                                    </a>
+                                    <a onclick="bank_pages_open('ui-bank-page3-history');" class="sidebar-item">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>История</span>
+                                    </a>
+                                    <a onclick="bank_pages_open('ui-bank-page4-services');" class="sidebar-item">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M17 8L21 12M21 12L17 16M21 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Услуги</span>
+                                    </a>
+                                </div>
+                                <div class="sidebar-footer">
+                                    <a onclick="chpok('ui-bank')" class="sidebar-item">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M16 17L21 12L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Выход</span>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="bank-main-content">
+                                <div id="ui-bank-page1" class="bank-page active">
+                                    <div class="page-header">
+                                        <h2>Личный кабинет</h2>
+                                        <div class="date-time">
+                                            <span id="bank-current-date">15 Мая 2023</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="account-overview">
+                                        <div class="balance-card">
+                                            <div class="card-content">
+                                                <div class="card-header">
+                                                    <div class="card-title">Текущий баланс</div>
+                                                    <div class="card-bank">FinX Premium</div>
+                                                </div>
+                                                <div class="card-balance" id="InfoPlayerBankMoney">{{InfoPlayerBankMoney}}</div>
+                                                <div class="card-chip">
+                                                    <svg width="50" height="40" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <rect x="5" y="5" width="40" height="30" rx="4" stroke="currentColor" stroke-width="2"/>
+                                                        <path d="M5 15H45" stroke="currentColor" stroke-width="2"/>
+                                                        <path d="M5 25H45" stroke="currentColor" stroke-width="2"/>
+                                                        <path d="M15 5V35" stroke="currentColor" stroke-width="2"/>
+                                                        <path d="M25 5V35" stroke="currentColor" stroke-width="2"/>
+                                                        <path d="M35 5V35" stroke="currentColor" stroke-width="2"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="card-details">
+                                                    <div class="card-number" id="InfoPlayerBankCardID">{{InfoPlayerBankCardID}}</div>
+                                                    <div class="card-expiry">VALID THRU: 05/28</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="account-stats">
+                                        <div class="stat-card">
+                                            <div class="stat-icon">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 2L2 7V9H22V7L12 2Z" fill="currentColor"/>
+                                                    <path d="M4 11V20H20V11H4Z" fill="currentColor"/>
+                                                    <path d="M2 22H22V20H2V22Z" fill="currentColor"/>
+                                                </svg>
+                                            </div>
+                                            <div class="stat-title">Ежедневный доход</div>
+                                            <div class="stat-value">$2,450</div>
+                                            <div class="stat-change positive">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M18 15L12 9L6 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                                12.5%
+                                            </div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-icon">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                                </svg>
+                                            </div>
+                                            <div class="stat-title">Последняя операция</div>
+                                            <div class="stat-value">2 часа назад</div>
+                                            <div class="stat-change">Перевод: $350</div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-icon">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 9V13M12 17H12.01M5.07183 19H18.9282C20.4678 19 21.4301 17.3333 20.6603 16L13.7321 4C12.9623 2.66667 11.0378 2.66667 10.268 4L3.33978 16C2.56998 17.3333 3.53223 19 5.07183 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <div class="stat-title">Активные штрафы</div>
+                                            <div id = "order-count" class="stat-value">3</div>
+                                            <div id = "order-count-value" class="stat-change negative">$1,250</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="quick-actions">
+                                        <div class="action-card" onclick="bank_pages_open('ui-bank-transfer');">
+                                            <div class="action-icon">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M17 8L21 12M21 12L17 16M21 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <div class="action-title">Перевод</div>
+                                        </div>
+                                        <div class="action-card" onclick="bank_pages_open('ui-bank-page2-pay-pdd');">
+                                            <div class="action-icon">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 9V13M12 17H12.01M5.07183 19H18.9282C20.4678 19 21.4301 17.3333 20.6603 16L13.7321 4C12.9623 2.66667 11.0378 2.66667 10.268 4L3.33978 16C2.56998 17.3333 3.53223 19 5.07183 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <div class="action-title">Штрафы</div>
+                                        </div>
+                                        <div class="action-card" onclick="bank_pages_open('ui-bank-page3-history');">
+                                            <div class="action-icon">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <div class="action-title">История</div>
+                                        </div>
+                                        <div class="action-card" onclick="bank_pages_open('ui-bank-page4-services');">
+                                            <div class="action-icon">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 12L19 19M19 12L12 19M12 5L5 12M5 5L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <div class="action-title">Услуги</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bank-sections">
+                                        <div class="bank-section transfer-section">
+                                            <div class="section-header">
+                                                <h3>Быстрый перевод</h3>
+                                            </div>
+                                            <div class="section-content">
+                                                <form id="transfer-form">
+                                                    <div class="form-group">
+                                                        <label for="amount">Сумма перевода</label>
+                                                        <input type="number" id="amount" placeholder="Введите сумму" required ng-model="transferData.amount" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="send_id">Банковский счёт получателя</label>
+                                                        <input type="number" id="send_id" placeholder="Пример: 12345678" required ng-model="transferData.sendId" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="transfer-comment">Комментарий (необязательно)</label>
+                                                        <input type="text" id="transfer-comment" placeholder="Введите комментарий" />
+                                                    </div>
+                                                    <button type="submit" ng-click="button_send_trans()" id="transfer-button">Перевести</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bank-section history-section">
+                                            <div class="section-header">
+                                                <h3>Последние операции</h3>
+                                                <a onclick="bank_pages_open('ui-bank-page3-history');" class="view-all">Смотреть все</a>
+                                            </div>
+                                            <div class="section-content">
+                                                <div class="transaction-list" id="ui-bank-page1-history-list">
+                                                    <div class="transaction-item income">
+                                                        <div class="transaction-info">
+                                                            <div class="transaction-icon income">↓</div>
+                                                            <div class="transaction-details">
+                                                                <div class="transaction-title">Зарплата</div>
+                                                                <div class="transaction-date">Сегодня, 14:30</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="transaction-amount positive">+$3,500</div>
+                                                    </div>
+                                                    <div class="transaction-item expense">
+                                                        <div class="transaction-info">
+                                                            <div class="transaction-icon expense">↑</div>
+                                                            <div class="transaction-details">
+                                                                <div class="transaction-title">Перевод: Алексей</div>
+                                                                <div class="transaction-date">Вчера, 18:45</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="transaction-amount negative">-$350</div>
+                                                    </div>
+                                                    <div class="transaction-item expense">
+                                                        <div class="transaction-info">
+                                                            <div class="transaction-icon expense">↑</div>
+                                                            <div class="transaction-details">
+                                                                <div class="transaction-title">Оплата штрафа</div>
+                                                                <div class="transaction-date">15.05.2023, 10:20</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="transaction-amount negative">-$500</div>
+                                                    </div>
+                                                    <div class="empty-transactions" style="display: none;">
+                                                        <div class="empty-icon">📊</div>
+                                                        <div class="empty-title">Нет операций</div>
+                                                        <div class="empty-description">История ваших операций будет отображаться здесь</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="ui-bank-page2-pay-pdd" class="bank-page">
+                                    <div class="page-header">
+                                        <h2>Штрафы</h2>
+                                    </div>
+                                    <div class="fines-container">
+                                        <div class="fines-list" id="pdd-fines-list">
+                                        </div>
+                                        <div class="fines-actions">
+                                            <button id="pdd-pay-all-btn" class="pay-all-btn" onclick="pay_pdd_button(-1)" style="display: none;">
+                                                Оплатить все штрафы
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="ui-bank-page3-history" class="bank-page">
+                                    <div class="page-header">
+                                        <h2>История операций</h2>
+                                    </div>
+                                    <div class="history-container">
+                                        <div class="history-filters">
+                                            <div class="filter-group">
+                                                <label>Период:</label>
+                                                <select id="history-period">
+                                                    <option value="all">Все операции</option>
+                                                    <option value="week">За неделю</option>
+                                                    <option value="month">За месяц</option>
+                                                </select>
+                                            </div>
+                                            <div class="filter-group">
+                                                <label>Тип:</label>
+                                                <select id="history-type">
+                                                    <option value="all">Все типы</option>
+                                                    <option value="in">Поступления</option>
+                                                    <option value="out">Списания</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="history-list" id="ui-bank-page2-history">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div id="ui-bank-page4-services" class="bank-page">
+                                    <div class="page-header">
+                                        <h2>Банковские услуги</h2>
+                                    </div>
+                                    <div class="services-container">
+                                        <div class="service-card">
+                                            <div class="service-icon">
+                                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M9 12H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M12 9V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M3 12C3 13.1819 3.23279 14.3522 3.68508 15.4442C4.13738 16.5361 4.80031 17.5282 5.63604 18.364C6.47177 19.1997 7.46392 19.8626 8.55585 20.3149C9.64778 20.7672 10.8181 21 12 21C13.1819 21 14.3522 20.7672 15.4442 20.3149C16.5361 19.8626 17.5282 19.1997 18.364 18.364C19.1997 17.5282 19.8626 16.5361 20.3149 15.4442C20.7672 14.3522 21 13.1819 21 12C21 9.61305 20.0518 7.32387 18.364 5.63604C16.6761 3.94821 14.3869 3 12 3C9.61305 3 7.32387 3.94821 5.63604 5.63604C3.94821 7.32387 3 9.61305 3 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <div class="service-title">Открыть новый счет</div>
+                                            <div class="service-description">Откройте дополнительный счет для разных целей</div>
+                                            <button class="service-button">Подробнее</button>
+                                        </div>
+                                        <div class="service-card">
+                                            <div class="service-icon">
+                                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M21 4H3C1.89543 4 1 4.89543 1 6V18C1 19.1046 1.89543 20 3 20H21C22.1046 20 23 19.1046 23 18V6C23 4.89543 22.1046 4 21 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M1 10H23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <div class="service-title">Заказать карту</div>
+                                            <div class="service-description">Закажите новую банковскую карту</div>
+                                            <button class="service-button">Подробнее</button>
+                                        </div>
+                                        <div class="service-card">
+                                            <div class="service-icon">
+                                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 1V23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <div class="service-title">Кредиты</div>
+                                            <div class="service-description">Оформите кредит на выгодных условиях</div>
+                                            <button class="service-button">Подробнее</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="help-panel" style="display: none;">
+                <div class="help-line"><span class="help-key">↑</span> Телефон</div>
+                <div class="help-line"><span class="help-key">I</span> Инвентарь</div>
+            </div>
+
+            <div id="bottomInfoPanel">
+                <div id="playerCurrentZonePanel">
+                    <div>
+                        <div class="yk-text w-6 s-14" :style="{'color': green ? '#ABE9AC' : '#30A8FF'}"><span id="crossingRoad">{{crossingRoad}}</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="universal-hud" id="universal-hud" style="display: none;">
+                <div class="hud-content driving-exam-content" id="driving-exam-content">
+                    <div class="driving-exam-info">
+                        <div class="driving-exam-header">
+                            <span id="driving-exam-license">Категория B</span>
+                            <span id="driving-exam-timer">00:00</span>
+                        </div>
+                        
+                        <div class="driving-exam-navigation">
+                            <div class="navigation-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+                                </svg>
+                            </div>
+                            <span id="driving-direction">Следуйте по маршруту</span>
+                        </div>
+                        
+                        <div class="driving-exam-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Скорость:</span>
+                                <span id="driving-current-speed">0 км/ч</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Макс. скорость:</span>
+                                <span id="driving-max-speed">60 км/ч</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Ошибки:</span>
+                                <span id="driving-errors">0</span>
+                            </div>
+                        </div>
+                        
+                        <button class="driving-exam-terminate-btn" onclick="showTerminateConfirmation()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 6L6 18M6 6L18 18"></path>
+                            </svg>
+                            Прервать экзамен
+                        </button>
+                    </div>
+                </div>
+
+
+
+                <div class="hud-content job-status-content" id="job-status-content">
+                    <div class="driving-exam-info">
+                        <div class="driving-exam-header">
+                            <span style="color: #e0e0e0;", id="work-name">Водитель автобуса</span>
+                            <span id="driving-bus-timer">00:00</span>
+                        </div>
+                        
+                        <div class="driving-exam-navigation">
+                            <div class="navigation-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+                                </svg>
+                            </div>
+                            <span id="driving-direction">Следуйте по маршруту</span>
+                        </div>
+                        
+                        <div class="driving-exam-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Зарплата</span>
+                                <span style="color: #e0e0e0;", id="work-pay">1000 $</span>
+                            </div>
+                        </div>
+                        
+                        <button class="driving-exam-terminate-btn" onclick="StopWorkConfirmation()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 6L6 18M6 6L18 18"></path>
+                            </svg>
+                            Прервать работу
+                        </button>
+                    </div>
+                </div>
+
+
+                
+
+                <div class="hud-content mission-content" id="mission-content" style="display: none;">
+                </div>
+                
+                <div class="hud-content notification-content" id="notification-content" style="display: none;">
+                </div>
+
+                <div class="universal-confirmation" id="universal-confirmation" style="display: none;">
+                    <div class="confirmation-dialog">
+                        <div class="confirmation-header">
+                            <div id="confirmation-icon" class="confirmation-icon">
+                            </div>  
+                            <h3 id="confirmation-title">Подтверждение</h3>
+                        </div>
+                        <p id="confirmation-message">Вы уверены, что хотите выполнить это действие?</p>
+                        <div class="confirmation-buttons">
+                            <button id="confirm-btn" class="confirm-btn">Подтвердить</button>
+                            <button id="cancel-btn" class="cancel-btn">Отмена</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    
+    <script src="/ui/modules/apps/HudRP/app.js"></script>
+    <script src="app.js"></script>
+
+
+</div>
